@@ -28,7 +28,7 @@ for db in $databases; do
     if [[ "$db" != "information_schema" ]] && [[ "$db" != _* ]] && [[ "$db" != "mysql" ]] && [[ "$db" != "performance_schema" ]] ; then
         echo "Dumping database: $db"
         mysqldump --single-transaction --routines --triggers --user=$USER --password=$PASSWORD --databases $db > $OUTPUTDEST/dbbackup-$TIMESTAMP-$db.sql
-        pigz $OUTPUTDEST/dbbackup-$TIMESTAMP-$db.sql
+        zstd --rm -q $OUTPUTDEST/dbbackup-$TIMESTAMP-$db.sql
     fi
 done
 /usr/local/bin/aws --only-show-errors s3 sync $OUTPUTDEST s3://$BUCKET/`date +%Y`/`date +%m`/`date +%d`/
