@@ -31,7 +31,7 @@ for db in $databases; do
         zstd --rm -q $OUTPUTDEST/dbbackup-$TIMESTAMP-$db.sql
     fi
 done
-/usr/local/bin/aws --only-show-errors s3 sync $OUTPUTDEST s3://$BUCKET/`date +%Y`/`date +%m`/`date +%d`/
+aws --only-show-errors s3 sync $OUTPUTDEST s3://$BUCKET/`date +%Y`/`date +%m`/`date +%d`/
 rm -rf /home/backups/mysql/dbbackup-*
 echo "Finished MySQL Backup";
 echo `date`;
